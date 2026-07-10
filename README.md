@@ -28,10 +28,9 @@ Veri seti; **Normal** ve **Zatürre (Pneumonia)** olmak üzere iki ana sınıfta
 ```text
 Pneumonia-Detection-Transfer-Learning/
 │
-├── data/               # Kaggle'dan indirilen veri seti klasörleri (Git tarafından takip edilmez)
+├── chest_xray/         # Kaggle'dan indirilen veri seti klasörleri (Git tarafından takip edilmez)
 │
-├── src/                # Proje kaynak kodları
-│   └── transfer_learning.py
+├── transfer_learning.py # Proje kaynak kodu
 │
 ├── .gitignore          # Büyük dosyaların ve sanal ortamın engellenmesi için ayarlar
 ├── README.md           # Proje hakkında genel bilgiler
