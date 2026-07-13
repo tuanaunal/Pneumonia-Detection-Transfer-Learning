@@ -2,3 +2,6 @@ chest_xray/
 venv/
 __pycache__/
 .vscode/
+train/
+test/
+val/
