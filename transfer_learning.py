@@ -109,3 +109,27 @@ print("Model summary:")
 print(model.summary()) # model ozeti
 
 # modelin egitilmesi ve sonuclarin degerlendirilmesi
+history = model.fit(
+    train_gen,
+    validation_data = val_gen,
+    epochs = 2,
+    callbacks = callbacks,
+    verbose = 1 # egitim ilerlemesini goster
+)
+
+from sklearn.metrics import confusion_matrix
+from sklearn.metrics import ConfusionMatrixDisplay
+import matplotlib.pyplot as plt
+
+# Test seti tahminlerinin yapılması ve karmaşıklık matrisinin çizilmesi
+pred_probs = model.predict(test_gen, verbose = 1)
+pred_labels = (pred_probs > 0.5).astype(int).ravel() # olasiliklardan etiket uretme orn: 0.7 > 0.5 ise 1, 0.3 < 0.5 ise 0
+true_labels = test_gen.classes # gercek etiket verilerimiz
+
+cm = confusion_matrix(true_labels, pred_labels)
+disp = ConfusionMatrixDisplay(cm, display_labels=class_names)
+
+plt.figure(figsize = (8,8))
+disp.plot(cmap = "Blues", colorbar=False)
+plt.title("Test Seti Confusion Matrix")
+plt.show()
