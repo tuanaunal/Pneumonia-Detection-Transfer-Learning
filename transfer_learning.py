@@ -75,7 +75,20 @@ plt.tight_layout()
 plt.show()
 
 # transfer learning modelin tanimlanmasi: densenet121
+base_model = DenseNet121(
+    weights = "imagenet", # onceden egitilmis modelin agirliklari
+    include_top = False, # son katmanlari dahil etme
+    input_shape = (*IMG_SIZE, 3) # input boyutu (224, 224, 3)
+)
+base_model.trainable = False # base modeli dondur yani base model train edilmeyecek
 
+x = base_model.output # base modelin ciktisi
+x = GlobalAveragePooling2D()(x)
+x = Dense(128, activation = "relu")(x) # 128 nöronlu gizli katman
+x = Dropout(0.5)(x) # dropout katmani
+pred = Dense(1, activation = "sigmoid")(x) # 1 nöronlu cikti katmani (ikili siniflandirma)
+
+model = Model(inputs = base_model.input, outputs = pred) # modeli tanimla
 
 # modelin derlenmesi ve callback ayarlari
 
