@@ -91,6 +91,21 @@ pred = Dense(1, activation = "sigmoid")(x) # 1 nöronlu cikti katmani (ikili sin
 model = Model(inputs = base_model.input, outputs = pred) # modeli tanimla
 
 # modelin derlenmesi ve callback ayarlari
+from tensorflow.keras.callbacks import EarlyStopping, ReduceLROnPlateau, ModelCheckpoint
 
+model.compile(
+    optimizer = Adam(learning_rate = 1e-4), # optimizer
+    loss = "binary_crossentropy", # ikili siniflandirma kaybi
+    metrics = ["accuracy"]
+)
+
+callbacks = [
+    EarlyStopping(monitor = "val_loss", patience = 3, restore_best_weights = True), # erken durdurma
+    ReduceLROnPlateau(monitor = "val_loss", factor = 0.2, patience = 2, min_lr = 1e-6),
+    ModelCheckpoint("best_model.h5", monitor = "val_loss", save_best_only = True) # en iyisini kaydet
+]
+
+print("Model summary:")
+print(model.summary()) # model ozeti
 
 # modelin egitilmesi ve sonuclarin degerlendirilmesi
